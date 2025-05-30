@@ -24,8 +24,10 @@ class FilmeViewModel : ViewModel() {
     private fun fetchRatedMovies() {
         viewModelScope.launch {
             try {
-                val response = tmdbApi.getRatedMovies(accountId)
+                val response = tmdbApi.getRatedMovies()
+
                 if (response.isSuccessful) {
+                    println(response.body()?.results)
                     _filmesState.value = response.body()?.results ?: emptyList()
                 } else {
                 }
@@ -39,6 +41,7 @@ class FilmeViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = tmdbApi.getRatedTv(accountId)
+                println(response)
                 if (response.isSuccessful) {
                     _tvSeriesState.value = response.body()?.results ?: emptyList()
                 } else {

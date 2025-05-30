@@ -15,9 +15,8 @@ private val retrofit = Retrofit.Builder()
 val tmdbApi = retrofit.create(TmdbApi::class.java)
 
 interface TmdbApi {
-    @GET("account/{account_id}/rated/movies")
+    @GET("movie/popular")
     suspend fun getRatedMovies(
-        @Path("account_id") accountId: String,
         @Header("Authorization") auth: String = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNmQ4OTYwMjNlYjM2YzU4ODNmOGVlNDI4ZmQ2MDI5YyIsIm5iZiI6MTY3MDk0MzYwMC42MTYsInN1YiI6IjYzOTg5MzcwMmNlZmMyMDA4NGI2NWRkNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-FsuE20UhArUVEdq0mRYkuWriUZeHHreGixiZi8AxgM",
         @Header("accept") accept: String = "application/json"
     ): Response<PagedResponse<RatedMovie>>

@@ -29,7 +29,6 @@ class FilmeViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     println(response.body()?.results)
                     _filmesState.value = response.body()?.results ?: emptyList()
-                } else {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -40,11 +39,10 @@ class FilmeViewModel : ViewModel() {
     private fun fetchRatedTvSeries() {
         viewModelScope.launch {
             try {
-                val response = tmdbApi.getRatedTv(accountId)
+                val response = tmdbApi.getRatedTv()
                 println(response)
                 if (response.isSuccessful) {
                     _tvSeriesState.value = response.body()?.results ?: emptyList()
-                } else {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -10,3 +10,13 @@ data class Filme(
     val vote_average: Double,
     val release_date: String
 )
+
+fun RatedMovie.toFilme() = Filme(
+    id = id,
+    title = title,
+    overview = overview,
+    poster_path = poster_path,
+    backdrop_path = TODO(),
+    vote_average = TODO(),
+    release_date = TODO()
+)

@@ -2,41 +2,47 @@ package com.example.recipeapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.recipeapp.TmdbResponse
-import com.example.recipeapp.TmdbApi
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
 
 class FilmeViewModel : ViewModel() {
 
-    private val _filmesState = mutableStateOf<List<Filme>>(emptyList())
-    val filmesState: State<List<Filme>> = _filmesState
+    private val accountId = "16441102"
 
-    private val _tvSeriesState = mutableStateOf<List<Serie>>(emptyList())
-    val tvSeriesState: State<List<Serie>> = _tvSeriesState
+    private val _filmesState = mutableStateOf<List<RatedMovie>>(emptyList())
+    val filmesState: State<List<RatedMovie>> = _filmesState
+
+    private val _tvSeriesState = mutableStateOf<List<RatedTv>>(emptyList())
+    val tvSeriesState: State<List<RatedTv>> = _tvSeriesState
 
     init {
-        fetchTopRatedMovies()
-        fetchTopRatedSeries()
+        fetchRatedMovies()
+        fetchRatedTvSeries()
     }
 
-    private fun fetchTopRatedMovies() {
+    private fun fetchRatedMovies() {
         viewModelScope.launch {
             try {
-                val response: TmdbResponse<Filme> = TmdbApi.service.getTopRatedMovies()
-                _filmesState.value = response.results
+                val response = tmdbApi.getRatedMovies(accountId)
+                if (response.isSuccessful) {
+                    _filmesState.value = response.body()?.results ?: emptyList()
+                } else {
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    private fun fetchTopRatedSeries() {
+    private fun fetchRatedTvSeries() {
         viewModelScope.launch {
             try {
-                val response: TmdbResponse<Serie> = TmdbApi.service.getTopRatedTvSeries()
-                _tvSeriesState.value = response.results
+                val response = tmdbApi.getRatedTv(accountId)
+                if (response.isSuccessful) {
+                    _tvSeriesState.value = response.body()?.results ?: emptyList()
+                } else {
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
